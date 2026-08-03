@@ -1,0 +1,32 @@
+.container-loader {
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 999;
+
+  > .blur {
+    backdrop-filter: blur(6px);
+    inset: 0;
+    position: absolute;
+  }
+
+  > .logo {
+    animation: pulse 1.2s ease-in-out infinite;
+    height: 80px;
+    position: relative;
+    width: 80px;
+    z-index: 1;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.25);
+    }
+  }
+}
