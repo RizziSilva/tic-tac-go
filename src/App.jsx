@@ -1,7 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useLoading } from "@context";
 import { HomePage, LoginPage } from "@pages";
 import { ROUTES } from "@constants";
+import { ProtectedRoute } from "@components";
 import "./style.scss";
 
 export default function App() {
@@ -18,8 +19,23 @@ export default function App() {
       {renderLoader()}
       <BrowserRouter>
         <Routes>
-          <Route path={ROUTES.HOME.pathname} element={<HomePage />} />
-          <Route path={ROUTES.LOGIN.pathname} element={<LoginPage />} />
+          <Route
+            path={ROUTES.HOME.pathname}
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.LOGIN.pathname}
+            element={
+              <ProtectedRoute>
+                <LoginPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to={ROUTES.HOME.pathname} />} />
         </Routes>
       </BrowserRouter>
     </>
