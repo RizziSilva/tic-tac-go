@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@context";
 import { ROUTES } from "@constants";
@@ -14,10 +15,10 @@ export function LoginPage() {
   async function handleLogin() {
     try {
       await loginWithGoogle(auth, provider);
-      navigate(ROUTES.DASHBOARD.pathname);
+      navigate(ROUTES.HOME.pathname);
     } catch (err) {
       console.error(err);
-      toast.error("Erro ao buscar informações sobre os bolões.");
+      toast.error("Erro ao realizar o login.");
     }
   }
 
@@ -27,7 +28,7 @@ export function LoginPage() {
         <div className={style["container-content"]}>
           <img className={style["image"]} src={Logo} />
           <span className={style["text"]}>
-            Faça login e jogo com seus amigos
+            Faça login e jogue com seus amigos
           </span>
           <button className={style["button"]} onClick={handleLogin}>
             <GoogleIcon /> Entrar com Google
