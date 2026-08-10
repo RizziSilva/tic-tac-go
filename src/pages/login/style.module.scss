@@ -1,7 +1,49 @@
+@use "@styles" as *;
+
 .container-page {
   align-items: center;
   display: flex;
   height: 100%;
   justify-content: center;
   width: 100%;
+
+  > .container-content {
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid $black;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    max-width: 450px;
+    padding: 20px;
+    width: 100%;
+
+    > .image {
+      height: 100px;
+      margin-bottom: 20px;
+      width: 100px;
+    }
+
+    > .text {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    > .button {
+      align-items: center;
+      border-radius: 5px;
+      border: none;
+      color: $black;
+      cursor: pointer;
+      display: flex;
+      font-size: 16px;
+      justify-content: center;
+      padding: 10px 20px;
+      width: 100%;
+
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
 }

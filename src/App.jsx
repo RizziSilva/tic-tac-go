@@ -27,14 +27,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path={ROUTES.LOGIN.pathname}
-            element={
-              <ProtectedRoute>
-                <LoginPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path={ROUTES.LOGIN.pathname} element={<LoginPage />} />
           <Route path="*" element={<Navigate to={ROUTES.HOME.pathname} />} />
         </Routes>
       </BrowserRouter>

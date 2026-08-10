@@ -1,19 +1,17 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { firebaseService } from "@services";
-
-const AuthContext = createContext(null);
+import { firebaseService, UserService } from "@services";
+import { AuthContext } from "./context";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined);
   const { auth } = firebaseService();
-  //   const { saveUserIfNotExists } = userService();
+  const { saveUserIfNotExists } = UserService();
 
-  // TODO silva.william 03/08/26: Criar a implementação para a criação do usuário.
   useEffect(() => {
     async function handleLogin(user) {
       if (user) {
-        // await saveUserIfNotExists(user);
+        await saveUserIfNotExists(user);
         setUser(user);
       } else setUser(null);
     }
@@ -26,5 +24,3 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 }
-
-export const useAuth = () => useContext(AuthContext);
