@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { firebaseService, UserService } from "@services";
+import { firebaseService, userService } from "@services";
 import { AuthContext } from "./context";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined);
   const { auth } = firebaseService();
-  const { saveUserIfNotExists } = UserService();
+  const { saveUserIfNotExists } = userService();
 
   useEffect(() => {
     async function handleLogin(user) {

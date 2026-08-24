@@ -1,0 +1,60 @@
+@use "@styles" as *;
+
+.container-home-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  > .container-content {
+    border: 1px solid $gray;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    > .logo {
+      width: 300px;
+    }
+
+    > .container-statistics {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+
+      > .text {
+        font-size: 16px;
+        font-weight: 400;
+        color: $black;
+
+        &.wins {
+          color: $win-green;
+        }
+
+        &.defeats {
+          color: $defeat-red;
+        }
+      }
+    }
+
+    > .container-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      > .button {
+        border-radius: 10px;
+        border: 1px solid $gray;
+        background-color: transparent;
+        color: $black;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+    }
+  }
+}

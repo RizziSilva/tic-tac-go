@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useLoading } from "@context";
 import { HomePage, LoginPage } from "@pages";
 import { ROUTES } from "@constants";
-import { ProtectedRoute } from "@components";
+import { Loader, ProtectedRoute } from "@components";
 import "./style.scss";
 
 export default function App() {
