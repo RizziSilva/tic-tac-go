@@ -9,3 +9,4 @@ export {
   DATABASE_URL,
   MEASUREMENT_ID,
 } from "./env";
+export { EVENTS } from "./events";

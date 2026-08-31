@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -24,6 +23,7 @@ export default defineConfig({
       "@layouts": path.resolve(__dirname, "src/layouts"),
       "@entities": path.resolve(__dirname, "src/entities"),
       "@utils": path.resolve(__dirname, "src/utils"),
+      "@socket": path.resolve(__dirname, "src/socket.js"),
     },
   },
 });

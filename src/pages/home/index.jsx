@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Logo } from "@statics";
 import { useAuth } from "@context";
 import { userService } from "@services";
-import { useAsyncRequest } from "@hooks";
+import { useAsyncRequest, useGame } from "@hooks";
 import style from "./style.module.scss";
 import toast from "react-hot-toast";
 
@@ -11,6 +11,7 @@ export function HomePage() {
   const { user } = useAuth();
   const { getUserInfo } = userService();
   const { asyncRequest } = useAsyncRequest();
+  const { createRoom, room } = useGame();
 
   useEffect(() => {
     async function getUserGamesInfo() {
@@ -27,9 +28,16 @@ export function HomePage() {
     getUserGamesInfo();
   }, []);
 
+  useEffect(() => {
+    // TODO silva.william 31/08/2026: Mandar o usuário para a página do jogo quando criar a sala.
+    if (room) console.log("room", room);
+  }, [room]);
+
   function handleJoinMatchClick() {}
 
-  function handleCreateMatchClick() {}
+  function handleCreateMatchClick() {
+    createRoom(false);
+  }
 
   function renderUserStatistics() {
     const { games, wins, defeats } = userGamesInfo;
