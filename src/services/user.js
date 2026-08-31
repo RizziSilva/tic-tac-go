@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firebaseService } from "./firebase";
 
-export function UserService() {
+export function userService() {
   const { db } = firebaseService();
 
   async function saveUserIfNotExists(user) {
@@ -24,5 +24,13 @@ export function UserService() {
     }
   }
 
-  return { saveUserIfNotExists };
+  async function getUserInfo(uid) {
+    const ref = doc(db, "users", uid);
+    const snap = await getDoc(ref);
+    const data = snap.data();
+
+    return data;
+  }
+
+  return { saveUserIfNotExists, getUserInfo };
 }

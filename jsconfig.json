@@ -12,7 +12,8 @@
       "@constants": ["./src/constants"],
       "@layouts": ["./src/layouts"],
       "@entities": ["./src/entities"],
-      "@utils": ["./src/utils"]
+      "@utils": ["./src/utils"],
+      "@socket": ["./src/socket.js"]
     }
   },
   "include": ["./src/**/*"]
