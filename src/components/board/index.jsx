@@ -1,13 +1,12 @@
+import { CELLS_ARRAY } from "@constants";
 import style from "./style.module.scss";
 
-const CELLS = Array(9).fill(null);
-
 export function Board() {
-  function renderCell(_, index) {
-    return <div key={index} className={style["cell"]} />;
+  function renderCells() {
+    return CELLS_ARRAY.map((position, index) => (
+      <div key={position} className={`${style["cell"]} ${style[position]}`} />
+    ));
   }
 
-  return (
-    <div className={style["container-board"]}>{CELLS.map(renderCell)}</div>
-  );
+  return <div className={style["container-board"]}>{renderCells()}</div>;
 }

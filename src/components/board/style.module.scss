@@ -4,18 +4,67 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 8px;
-  width: 300px;
   height: 300px;
+  width: 300px;
 
   > .cell {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    border: 1px solid $gray;
-    border-radius: 10px;
+    border-color: $black;
+    border-style: solid;
+    border-width: 0;
+    color: $black;
+    cursor: pointer;
+    display: flex;
     font-size: 48px;
     font-weight: 700;
-    color: $black;
+    justify-content: center;
+
+    &.left-up {
+      border-bottom-width: 2px;
+      border-right-width: 2px;
+    }
+
+    &.left-middle {
+      border-bottom-width: 2px;
+      border-right-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.left-bottom {
+      border-right-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.middle-up {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+      border-right-width: 2px;
+    }
+
+    &.middle-middle {
+      border-width: 2px;
+    }
+
+    &.middle-bottom {
+      border-left-width: 2px;
+      border-right-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.right-up {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+    }
+
+    &.right-middle {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.right-bottom {
+      border-left-width: 2px;
+      border-top-width: 2px;
+    }
   }
 }
