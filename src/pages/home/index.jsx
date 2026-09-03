@@ -33,10 +33,8 @@ export function HomePage() {
 
   useEffect(() => {
     function handleRoom() {
-      if (room) {
+      if (room)
         navigate(`${ROUTES.GAME.path}${room.code}`, { state: { room } });
-        console.log("room", room);
-      }
     }
 
     handleRoom();

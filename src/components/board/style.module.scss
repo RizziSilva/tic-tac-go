@@ -1,0 +1,21 @@
+@use "@styles" as *;
+
+.container-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  width: 300px;
+  height: 300px;
+
+  > .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $gray;
+    border-radius: 10px;
+    font-size: 48px;
+    font-weight: 700;
+    color: $black;
+  }
+}
