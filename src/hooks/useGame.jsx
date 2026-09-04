@@ -7,8 +7,6 @@ export function useGame() {
 
   useEffect(() => {
     function handleCreateGame() {
-      socket.connect();
-
       function handleRoomCreated(room) {
         setRoom(room);
       }
@@ -17,7 +15,6 @@ export function useGame() {
 
       return () => {
         socket.off(EVENTS.ROOM_CREATED, handleRoomCreated);
-        socket.disconnect();
       };
     }
 

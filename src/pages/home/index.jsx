@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { Logo } from "@statics";
 import { useAuth } from "@context";
+import { ROUTES } from "@constants";
 import { userService } from "@services";
 import { useAsyncRequest, useGame } from "@hooks";
 import style from "./style.module.scss";
-import toast from "react-hot-toast";
 
 export function HomePage() {
   const [userGamesInfo, setUserGamesInfo] = useState({});
@@ -12,6 +14,7 @@ export function HomePage() {
   const { getUserInfo } = userService();
   const { asyncRequest } = useAsyncRequest();
   const { createRoom, room } = useGame();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getUserGamesInfo() {
@@ -29,8 +32,12 @@ export function HomePage() {
   }, []);
 
   useEffect(() => {
-    // TODO silva.william 31/08/2026: Mandar o usuário para a página do jogo quando criar a sala.
-    if (room) console.log("room", room);
+    function handleRoom() {
+      if (room)
+        navigate(`${ROUTES.GAME.path}${room.code}`, { state: { room } });
+    }
+
+    handleRoom();
   }, [room]);
 
   function handleJoinMatchClick() {}

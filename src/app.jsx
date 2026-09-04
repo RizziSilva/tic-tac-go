@@ -1,12 +1,14 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useLoading } from "@context";
-import { HomePage, LoginPage } from "@pages";
+import { GamePage, HomePage, LoginPage } from "@pages";
+import { useSocket } from "@hooks";
 import { ROUTES } from "@constants";
 import { Loader, ProtectedRoute } from "@components";
 import "./style.scss";
 
 export default function App() {
   const { isLoading } = useLoading();
+  useSocket();
 
   function renderLoader() {
     if (!isLoading) return null;
@@ -24,6 +26,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.GAME.pathname}
+            element={
+              <ProtectedRoute>
+                <GamePage />
               </ProtectedRoute>
             }
           />

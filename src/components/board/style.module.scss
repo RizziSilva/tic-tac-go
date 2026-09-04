@@ -1,0 +1,70 @@
+@use "@styles" as *;
+
+.container-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 300px;
+  width: 300px;
+
+  > .cell {
+    align-items: center;
+    border-color: $black;
+    border-style: solid;
+    border-width: 0;
+    color: $black;
+    cursor: pointer;
+    display: flex;
+    font-size: 48px;
+    font-weight: 700;
+    justify-content: center;
+
+    &.left-up {
+      border-bottom-width: 2px;
+      border-right-width: 2px;
+    }
+
+    &.left-middle {
+      border-bottom-width: 2px;
+      border-right-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.left-bottom {
+      border-right-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.middle-up {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+      border-right-width: 2px;
+    }
+
+    &.middle-middle {
+      border-width: 2px;
+    }
+
+    &.middle-bottom {
+      border-left-width: 2px;
+      border-right-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.right-up {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+    }
+
+    &.right-middle {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+      border-top-width: 2px;
+    }
+
+    &.right-bottom {
+      border-left-width: 2px;
+      border-top-width: 2px;
+    }
+  }
+}

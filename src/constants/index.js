@@ -10,3 +10,4 @@ export {
   MEASUREMENT_ID,
 } from "./env";
 export { EVENTS } from "./events";
+export { CELLS_ARRAY } from "./board";

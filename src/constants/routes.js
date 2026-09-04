@@ -7,4 +7,9 @@ export const ROUTES = {
     label: "Home",
     pathname: "/",
   },
+  GAME: {
+    label: "Game",
+    pathname: "/game/:code",
+    path: "/game/",
+  },
 };
