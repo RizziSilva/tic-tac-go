@@ -27,6 +27,8 @@ export function useGame(initialRoom = null) {
     socket.on(EVENTS.ROOM_JOINED, handleRoom);
     socket.on(EVENTS.PLAYER_JOINED, handleRoom);
     socket.on(EVENTS.ROOM_STATE, handleRoom);
+    socket.on(EVENTS.MOVE_MADE, handleRoom);
+    socket.on(EVENTS.GAME_OVER, handleRoom);
     socket.on(EVENTS.EXCEPTION, handleException);
 
     return () => {
@@ -34,6 +36,8 @@ export function useGame(initialRoom = null) {
       socket.off(EVENTS.ROOM_JOINED, handleRoom);
       socket.off(EVENTS.PLAYER_JOINED, handleRoom);
       socket.off(EVENTS.ROOM_STATE, handleRoom);
+      socket.off(EVENTS.MOVE_MADE, handleRoom);
+      socket.off(EVENTS.GAME_OVER, handleRoom);
       socket.off(EVENTS.EXCEPTION, handleException);
     };
   }, []);
@@ -51,5 +55,9 @@ export function useGame(initialRoom = null) {
     socket.emit(EVENTS.REJOIN_ROOM, { playerId, code });
   }
 
-  return { room, createRoom, joinRoom, enterRoom };
+  function play(position) {
+    socket.emit(EVENTS.MOVE, { position });
+  }
+
+  return { room, createRoom, joinRoom, enterRoom, play };
 }

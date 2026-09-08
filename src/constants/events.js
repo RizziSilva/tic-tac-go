@@ -6,5 +6,8 @@ export const EVENTS = {
   PLAYER_JOINED: "player_joined",
   REJOIN_ROOM: "rejoin_room",
   ROOM_STATE: "room_state",
+  MOVE: "move",
+  MOVE_MADE: "move_made",
+  GAME_OVER: "game_over",
   EXCEPTION: "exception",
 };
