@@ -21,8 +21,8 @@ export function useGame() {
     handleCreateGame();
   }, []);
 
-  function createRoom(isPublic) {
-    socket.emit(EVENTS.CREATE_ROOM, { isPublic });
+  function createRoom(playerId, isPublic) {
+    socket.emit(EVENTS.CREATE_ROOM, { playerId, isPublic });
   }
 
   return { room, createRoom };
