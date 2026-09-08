@@ -1,29 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { socket } from "@socket";
-import { EVENTS } from "@constants";
+import { EVENTS, REJOIN_ERROR_CODES } from "@constants";
 
-export function useGame() {
-  const [room, setRoom] = useState(null);
+export function useGame(initialRoom = null) {
+  const [room, setRoom] = useState(initialRoom);
+  const pendingJoin = useRef(null);
 
   useEffect(() => {
-    function handleCreateGame() {
-      function handleRoomCreated(room) {
-        setRoom(room);
-      }
-
-      socket.on(EVENTS.ROOM_CREATED, handleRoomCreated);
-
-      return () => {
-        socket.off(EVENTS.ROOM_CREATED, handleRoomCreated);
-      };
+    function handleRoom(room) {
+      pendingJoin.current = null;
+      setRoom(room);
     }
 
-    handleCreateGame();
+    function handleException(error) {
+      const isRejoinPending = Boolean(pendingJoin.current);
+      const isRejoinError = REJOIN_ERROR_CODES.includes(error?.code);
+      const shouldFallbackToJoin = isRejoinPending && isRejoinError;
+
+      if (shouldFallbackToJoin) {
+        socket.emit(EVENTS.JOIN_ROOM_WITH_CODE, pendingJoin.current);
+        pendingJoin.current = null;
+      }
+    }
+
+    socket.on(EVENTS.ROOM_CREATED, handleRoom);
+    socket.on(EVENTS.ROOM_JOINED, handleRoom);
+    socket.on(EVENTS.PLAYER_JOINED, handleRoom);
+    socket.on(EVENTS.ROOM_STATE, handleRoom);
+    socket.on(EVENTS.EXCEPTION, handleException);
+
+    return () => {
+      socket.off(EVENTS.ROOM_CREATED, handleRoom);
+      socket.off(EVENTS.ROOM_JOINED, handleRoom);
+      socket.off(EVENTS.PLAYER_JOINED, handleRoom);
+      socket.off(EVENTS.ROOM_STATE, handleRoom);
+      socket.off(EVENTS.EXCEPTION, handleException);
+    };
   }, []);
 
   function createRoom(isPublic) {
     socket.emit(EVENTS.CREATE_ROOM, { isPublic });
   }
 
-  return { room, createRoom };
+  function joinRoom(playerId, code) {
+    socket.emit(EVENTS.JOIN_ROOM_WITH_CODE, { playerId, code });
+  }
+
+  function enterRoom(playerId, code) {
+    pendingJoin.current = { playerId, code };
+    socket.emit(EVENTS.REJOIN_ROOM, { playerId, code });
+  }
+
+  return { room, createRoom, joinRoom, enterRoom };
 }

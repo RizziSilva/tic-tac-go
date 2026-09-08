@@ -10,4 +10,5 @@ export {
   MEASUREMENT_ID,
 } from "./env";
 export { EVENTS } from "./events";
+export { ERRORS, REJOIN_ERROR_CODES } from "./errors";
 export { CELLS_ARRAY } from "./board";
