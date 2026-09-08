@@ -1,4 +1,10 @@
 export const EVENTS = {
   CREATE_ROOM: "create_room",
   ROOM_CREATED: "room_created",
+  JOIN_ROOM_WITH_CODE: "join_room_with_code",
+  ROOM_JOINED: "room_joined",
+  PLAYER_JOINED: "player_joined",
+  REJOIN_ROOM: "rejoin_room",
+  ROOM_STATE: "room_state",
+  EXCEPTION: "exception",
 };
