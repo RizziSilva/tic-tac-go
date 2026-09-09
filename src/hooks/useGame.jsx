@@ -42,16 +42,16 @@ export function useGame(initialRoom = null) {
     };
   }, []);
 
-  function createRoom(isPublic) {
-    socket.emit(EVENTS.CREATE_ROOM, { isPublic });
+  function createRoom(playerId, name, imageUrl, isPublic) {
+    socket.emit(EVENTS.CREATE_ROOM, { playerId, name, imageUrl, isPublic });
   }
 
-  function joinRoom(playerId, code) {
-    socket.emit(EVENTS.JOIN_ROOM_WITH_CODE, { playerId, code });
+  function joinRoom(playerId, name, imageUrl, code) {
+    socket.emit(EVENTS.JOIN_ROOM_WITH_CODE, { playerId, name, imageUrl, code });
   }
 
-  function enterRoom(playerId, code) {
-    pendingJoin.current = { playerId, code };
+  function enterRoom(playerId, name, imageUrl, code) {
+    pendingJoin.current = { playerId, name, imageUrl, code };
     socket.emit(EVENTS.REJOIN_ROOM, { playerId, code });
   }
 

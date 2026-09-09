@@ -43,7 +43,7 @@ export function HomePage() {
   function handleJoinMatchClick() {}
 
   function handleCreateMatchClick() {
-    createRoom(false);
+    createRoom(user.uid, user.displayName, user.photoURL, false);
   }
 
   function renderUserStatistics() {

@@ -15,7 +15,7 @@ export function GamePage() {
   useEffect(() => {
     const hasInitialRoom = initialRoom;
 
-    if (!hasInitialRoom) enterRoom(user.uid, code);
+    if (!hasInitialRoom) enterRoom(user.uid, user.displayName, user.photoURL, code);
   }, []);
 
   function handleCellClick(position) {
@@ -23,10 +23,14 @@ export function GamePage() {
   }
 
   function renderPlayersInformation() {
-    return room?.players.map(() => (
-      <div className={style["container-player"]}>
-        <img className={style["image"]} src="" alt="Imagem do usuário" />
-        <span className={style["name"]}>Nome Qualquer</span>
+    return room?.players.map((player) => (
+      <div key={player.playerId} className={style["container-player"]}>
+        <img
+          className={style["image"]}
+          src={player.imageUrl}
+          alt={`Imagem de ${player.name}`}
+        />
+        <span className={style["name"]}>{player.name}</span>
       </div>
     ));
   }
