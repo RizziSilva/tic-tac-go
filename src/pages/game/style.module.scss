@@ -4,6 +4,66 @@
   display: flex;
   width: 100%;
   height: 100%;
-  justify-content: center;
   align-items: center;
+  flex-direction: column;
+  padding: 20px;
+
+  > .container-information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > .title {
+      margin-bottom: 20px;
+      font-size: 20px;
+
+      > .dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: $black;
+        animation: dot 1s infinite;
+        display: inline-block;
+
+        &:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+
+        &:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+      }
+    }
+
+    > .container-player {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      > .image {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  > .container-board {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@keyframes dot {
+  0% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

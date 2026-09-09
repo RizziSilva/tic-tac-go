@@ -22,9 +22,35 @@ export function GamePage() {
     play(position);
   }
 
+  function renderPlayersInformation() {
+    return room?.players.map(() => (
+      <div className={style["container-player"]}>
+        <img className={style["image"]} src="" alt="Imagem do usuário" />
+        <span className={style["name"]}>Nome Qualquer</span>
+      </div>
+    ));
+  }
+
+  function renderGameInformation() {
+    return (
+      <div className={style["container-information"]}>
+        <span className={style["title"]}>
+          Aguardando oponente
+          <div className={style["dot"]} />
+          <div className={style["dot"]} />
+          <div className={style["dot"]} />
+        </span>
+        {renderPlayersInformation()}
+      </div>
+    );
+  }
+
   return (
     <div className={style["container-page"]}>
-      <Board board={room?.board} onCellClick={handleCellClick} />
+      {renderGameInformation()}
+      <div className={style["container-board"]}>
+        <Board board={room?.board} onCellClick={handleCellClick} />
+      </div>
     </div>
   );
 }
