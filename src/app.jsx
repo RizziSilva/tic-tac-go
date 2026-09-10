@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import { useLoading } from "@context";
 import { GamePage, HomePage, LoginPage } from "@pages";
 import { useSocket } from "@hooks";
@@ -18,6 +19,7 @@ export default function App() {
 
   return (
     <>
+      <Toaster position="top-right" />
       {renderLoader()}
       <BrowserRouter>
         <Routes>

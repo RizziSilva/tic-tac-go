@@ -4,23 +4,29 @@ import { EVENTS, REJOIN_ERROR_CODES } from "@constants";
 
 export function useGame(initialRoom = null) {
   const [room, setRoom] = useState(initialRoom);
+  const [error, setError] = useState(null);
   const pendingJoin = useRef(null);
 
   useEffect(() => {
     function handleRoom(room) {
       pendingJoin.current = null;
+      setError(null);
       setRoom(room);
     }
 
     function handleException(error) {
-      const isRejoinPending = Boolean(pendingJoin.current);
+      const isRejoinPending = pendingJoin.current;
       const isRejoinError = REJOIN_ERROR_CODES.includes(error?.code);
       const shouldFallbackToJoin = isRejoinPending && isRejoinError;
 
       if (shouldFallbackToJoin) {
         socket.emit(EVENTS.JOIN_ROOM_WITH_CODE, pendingJoin.current);
         pendingJoin.current = null;
+        return;
       }
+
+      pendingJoin.current = null;
+      setError(error);
     }
 
     socket.on(EVENTS.ROOM_CREATED, handleRoom);
@@ -59,5 +65,5 @@ export function useGame(initialRoom = null) {
     socket.emit(EVENTS.MOVE, { position });
   }
 
-  return { room, createRoom, joinRoom, enterRoom, play };
+  return { room, error, createRoom, joinRoom, enterRoom, play };
 }

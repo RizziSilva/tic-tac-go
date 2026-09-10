@@ -1,36 +1,36 @@
 @use "@styles" as *;
 
 .container-home-page {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  width: 100%;
 
   > .container-content {
+    border-radius: 10px;
     border: 1px solid $gray;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
     > .logo {
       width: 300px;
     }
 
     > .container-statistics {
+      align-items: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 10px;
       margin-bottom: 20px;
 
       > .text {
+        color: $black;
         font-size: 16px;
         font-weight: 400;
-        color: $black;
 
         &.wins {
           color: $win-green;
@@ -46,6 +46,13 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+
+      > .input {
+        border-radius: 10px;
+        border: 1px solid $gray;
+        padding: 10px 15px;
+        width: 100%;
+      }
 
       > .button {
         border-radius: 10px;

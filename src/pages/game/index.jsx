@@ -52,7 +52,6 @@ export function GamePage() {
     const currentPlayer = room?.players.find(
       (player) => player.playerId === user.uid,
     );
-
     const hasCurrentPlayerWon = room?.winner === currentPlayer?.symbol;
 
     if (hasCurrentPlayerWon) return "Você venceu!";
