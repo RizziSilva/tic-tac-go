@@ -6,6 +6,7 @@ import { useAuth } from "@context";
 import { ERRORS, ROUTES } from "@constants";
 import { userService } from "@services";
 import { useAsyncRequest, useGame } from "@hooks";
+import { ROOM_CODE_LENGTH } from "./constants";
 import style from "./style.module.scss";
 
 export function HomePage() {
@@ -82,6 +83,8 @@ export function HomePage() {
   }
 
   function renderActions() {
+    const isJoinWithCodeDisabled = code.length > ROOM_CODE_LENGTH;
+
     return (
       <div className={style["container-actions"]}>
         <button onClick={handleCreateMatchClick} className={style["button"]}>
@@ -92,8 +95,9 @@ export function HomePage() {
           className={style["input"]}
           onChange={handleChange}
           value={code}
-          placeholder="Código da Sala."
-          maxLength={6}
+          placeholder="Código de 6 dígitos da Sala."
+          maxLength={ROOM_CODE_LENGTH}
+          disabled={isJoinWithCodeDisabled}
         />
         <button onClick={handleJoinMatchClick} className={style["button"]}>
           Entrar em partida
