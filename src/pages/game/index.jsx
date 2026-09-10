@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { Board } from "@components";
+import { ROOM_STATUS } from "@constants";
 import { useAuth } from "@context";
 import { useGame } from "@hooks";
 import style from "./style.module.scss";
@@ -15,7 +16,8 @@ export function GamePage() {
   useEffect(() => {
     const hasInitialRoom = initialRoom;
 
-    if (!hasInitialRoom) enterRoom(user.uid, user.displayName, user.photoURL, code);
+    if (!hasInitialRoom)
+      enterRoom(user.uid, user.displayName, user.photoURL, code);
   }, []);
 
   function handleCellClick(position) {
@@ -35,15 +37,45 @@ export function GamePage() {
     ));
   }
 
+  function renderWaitingForOponent() {
+    return (
+      <>
+        Aguardando oponente
+        <div className={style["dot"]} />
+        <div className={style["dot"]} />
+        <div className={style["dot"]} />
+      </>
+    );
+  }
+
+  function renderFinishedMessage() {
+    const currentPlayer = room?.players.find(
+      (player) => player.playerId === user.uid,
+    );
+
+    const hasCurrentPlayerWon = room?.winner === currentPlayer?.symbol;
+
+    if (hasCurrentPlayerWon) return "Você venceu!";
+
+    return "Você perdeu!";
+  }
+
+  function renderTitle() {
+    const isWaiting = room?.status === ROOM_STATUS.WAITING;
+    const isPlaying = room?.status === ROOM_STATUS.PLAYING;
+    const isFinished = room?.status === ROOM_STATUS.FINISHED;
+
+    if (isWaiting) return renderWaitingForOponent();
+    if (isPlaying) return "Oponente encontrado!";
+    if (isFinished) return renderFinishedMessage();
+
+    return renderWaitingForOponent();
+  }
+
   function renderGameInformation() {
     return (
       <div className={style["container-information"]}>
-        <span className={style["title"]}>
-          Aguardando oponente
-          <div className={style["dot"]} />
-          <div className={style["dot"]} />
-          <div className={style["dot"]} />
-        </span>
+        <span className={style["title"]}>{renderTitle()}</span>
         {renderPlayersInformation()}
       </div>
     );
