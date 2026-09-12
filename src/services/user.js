@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, increment, setDoc, updateDoc } from "firebase/firestore";
 import { firebaseService } from "./firebase";
 
 export function userService() {
@@ -32,5 +32,15 @@ export function userService() {
     return data;
   }
 
-  return { saveUserIfNotExists, getUserInfo };
+  async function updateGameResult(uid, hasWon) {
+    const ref = doc(db, "users", uid);
+
+    await updateDoc(ref, {
+      games: increment(1),
+      wins: increment(hasWon ? 1 : 0),
+      defeats: increment(hasWon ? 0 : 1),
+    });
+  }
+
+  return { saveUserIfNotExists, getUserInfo, updateGameResult };
 }
