@@ -65,5 +65,9 @@ export function useGame(initialRoom = null) {
     socket.emit(EVENTS.MOVE, { position });
   }
 
-  return { room, error, createRoom, joinRoom, enterRoom, play };
+  function leaveRoom(playerId) {
+    socket.emit(EVENTS.LEAVE_ROOM, { playerId });
+  }
+
+  return { room, error, createRoom, joinRoom, enterRoom, play, leaveRoom };
 }

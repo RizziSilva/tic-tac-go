@@ -1,0 +1,42 @@
+@use "@styles" as *;
+
+.container-modal {
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 999;
+
+  > .blur {
+    backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.4);
+    inset: 0;
+    position: absolute;
+  }
+
+  > .content {
+    align-items: center;
+    background-color: $white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+
+    > .message {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    > .button-confirm {
+      background: none;
+      border: 1px solid $black;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+  }
+}
