@@ -1,20 +1,23 @@
-import { useEffect, useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { Board } from "@components";
-import { ROOM_STATUS } from "@constants";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Board, Modal } from "@components";
+import { ROOM_STATUS, ROUTES } from "@constants";
 import { useAuth } from "@context";
 import { useGame } from "@hooks";
 import { userService } from "@services";
+import { LeftArrow } from "@statics";
 import style from "./style.module.scss";
 
 export function GamePage() {
+  const [isGiveUpModalOpen, setIsGiveUpModalOpen] = useState(false);
   const hasUpdatedGameResult = useRef(false);
   const location = useLocation();
   const initialRoom = location.state?.room;
-  const { room, enterRoom, play } = useGame(initialRoom ?? null);
+  const { room, enterRoom, play, leaveRoom } = useGame(initialRoom ?? null);
   const { code } = useParams();
   const { user } = useAuth();
   const { updateGameResult } = userService();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const hasInitialRoom = initialRoom;
@@ -44,6 +47,25 @@ export function GamePage() {
 
   function handleCellClick(position) {
     play(position);
+  }
+
+  function handleBackClick() {
+    const hasOpponent = room?.players.length === 2;
+    const isGameInProgress = room?.status === ROOM_STATUS.PLAYING;
+    const isGivingUp = hasOpponent && isGameInProgress;
+
+    if (isGivingUp) setIsGiveUpModalOpen(true);
+    else {
+      leaveRoom(user.uid);
+      navigate(ROUTES.HOME.pathname);
+    }
+  }
+
+  function handleGiveUpConfirm() {
+    hasUpdatedGameResult.current = true;
+    updateGameResult(user.uid, false);
+    leaveRoom(user.uid);
+    navigate(ROUTES.HOME.pathname);
   }
 
   function renderPlayersInformation() {
@@ -103,11 +125,22 @@ export function GamePage() {
   }
 
   return (
-    <div className={style["container-page"]}>
-      {renderGameInformation()}
-      <div className={style["container-board"]}>
-        <Board board={room?.board} onCellClick={handleCellClick} />
+    <>
+      <Modal
+        isOpen={isGiveUpModalOpen}
+        message="Tem certeza que deseja desistir da partida?"
+        confirmLabel="Desistir"
+        onConfirm={handleGiveUpConfirm}
+      />
+      <div className={style["container-page"]}>
+        <button className={style["button-back"]} onClick={handleBackClick}>
+          <LeftArrow />
+        </button>
+        {renderGameInformation()}
+        <div className={style["container-board"]}>
+          <Board board={room?.board} onCellClick={handleCellClick} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

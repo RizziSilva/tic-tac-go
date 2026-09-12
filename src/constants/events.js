@@ -9,5 +9,6 @@ export const EVENTS = {
   MOVE: "move",
   MOVE_MADE: "move_made",
   GAME_OVER: "game_over",
+  LEAVE_ROOM: "leave_room",
   EXCEPTION: "exception",
 };
