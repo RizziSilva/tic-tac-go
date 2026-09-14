@@ -5,7 +5,7 @@ import { ROOM_STATUS, ROUTES } from "@constants";
 import { useAuth } from "@context";
 import { useGame } from "@hooks";
 import { userService } from "@services";
-import { LeftArrow } from "@statics";
+import { DefaultUser, LeftArrow } from "@statics";
 import style from "./style.module.scss";
 
 export function GamePage() {
@@ -38,7 +38,7 @@ export function GamePage() {
         const hasCurrentPlayerWon = room?.winner === currentPlayer?.symbol;
 
         hasUpdatedGameResult.current = true;
-        updateGameResult(user.uid, hasCurrentPlayerWon);
+        if (!user.isGuest) updateGameResult(user.uid, hasCurrentPlayerWon);
       }
     }
 
@@ -63,7 +63,7 @@ export function GamePage() {
 
   function handleGiveUpConfirm() {
     hasUpdatedGameResult.current = true;
-    updateGameResult(user.uid, false);
+    if (!user.isGuest) updateGameResult(user.uid, false);
     leaveRoom(user.uid);
     navigate(ROUTES.HOME.pathname);
   }
@@ -73,7 +73,7 @@ export function GamePage() {
       <div key={player.playerId} className={style["container-player"]}>
         <img
           className={style["image"]}
-          src={player.imageUrl}
+          src={player.imageUrl || DefaultUser}
           alt={`Imagem de ${player.name}`}
         />
         <span className={style["name"]}>{player.name}</span>

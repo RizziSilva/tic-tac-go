@@ -7,7 +7,7 @@ import { firebaseService, loginService } from "@services";
 import style from "./style.module.scss";
 
 export function LoginPage() {
-  const { user } = useAuth();
+  const { user, loginAsGuest } = useAuth();
   const navigate = useNavigate();
   const { loginWithGoogle } = loginService();
   const { auth, provider } = firebaseService();
@@ -22,6 +22,11 @@ export function LoginPage() {
     }
   }
 
+  function handleGuestLogin() {
+    loginAsGuest();
+    navigate(ROUTES.HOME.pathname);
+  }
+
   function renderLoginPage() {
     return (
       <div className={style["container-page"]}>
@@ -32,6 +37,9 @@ export function LoginPage() {
           </span>
           <button className={style["button"]} onClick={handleLogin}>
             <GoogleIcon /> Entrar com Google
+          </button>
+          <button className={style["button"]} onClick={handleGuestLogin}>
+            Jogar como convidado
           </button>
         </div>
       </div>

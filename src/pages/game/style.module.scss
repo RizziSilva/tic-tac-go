@@ -32,6 +32,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 300px;
 
     > .title {
       margin-bottom: 20px;
@@ -69,6 +70,13 @@
         width: 40px;
         height: 40px;
         border-radius: 50px;
+      }
+
+      > .name {
+        max-width: 157px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
