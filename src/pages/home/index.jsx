@@ -30,7 +30,7 @@ export function HomePage() {
       }
     }
 
-    getUserGamesInfo();
+    if (!user.isGuest) getUserGamesInfo();
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export function HomePage() {
   }
 
   function renderUserStatistics() {
-    const { games, wins, defeats } = userGamesInfo;
+    const { games = 0, wins = 0, defeats = 0 } = userGamesInfo;
 
     return (
       <div className={style["container-statistics"]}>

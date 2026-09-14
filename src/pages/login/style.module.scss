@@ -41,6 +41,10 @@
       padding: 10px 20px;
       width: 100%;
 
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
       svg {
         margin-right: 10px;
       }
