@@ -8,6 +8,7 @@ export {
   APP_ID,
   DATABASE_URL,
   MEASUREMENT_ID,
+  SOCKET_CONNECTION,
 } from "./env";
 export { EVENTS } from "./events";
 export { ERRORS, REJOIN_ERROR_CODES } from "./errors";

@@ -14,3 +14,5 @@ export const APP_ID = import.meta.env.VITE_FIREBASE_APP_ID;
 export const DATABASE_URL = import.meta.env.VITE_FIREBASE_DATABASE_URL;
 
 export const MEASUREMENT_ID = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID;
+
+export const SOCKET_CONNECTION = import.meta.env.VITE_SOCKET_CONNECTION;
