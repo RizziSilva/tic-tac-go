@@ -5,6 +5,7 @@ import { EVENTS, REJOIN_ERROR_CODES } from "@constants";
 export function useGame(initialRoom = null) {
   const [room, setRoom] = useState(initialRoom);
   const [error, setError] = useState(null);
+  const [isOpponentDisconnected, setIsOpponentDisconnected] = useState(false);
   const pendingJoin = useRef(null);
 
   useEffect(() => {
@@ -12,6 +13,14 @@ export function useGame(initialRoom = null) {
       pendingJoin.current = null;
       setError(null);
       setRoom(room);
+    }
+
+    function handleOpponentDisconnected() {
+      setIsOpponentDisconnected(true);
+    }
+
+    function handleOpponentReconnected() {
+      setIsOpponentDisconnected(false);
     }
 
     function handleException(error) {
@@ -35,6 +44,8 @@ export function useGame(initialRoom = null) {
     socket.on(EVENTS.ROOM_STATE, handleRoom);
     socket.on(EVENTS.MOVE_MADE, handleRoom);
     socket.on(EVENTS.GAME_OVER, handleRoom);
+    socket.on(EVENTS.OPPONENT_DISCONNECTED, handleOpponentDisconnected);
+    socket.on(EVENTS.OPPONENT_RECONNECTED, handleOpponentReconnected);
     socket.on(EVENTS.EXCEPTION, handleException);
 
     return () => {
@@ -44,6 +55,8 @@ export function useGame(initialRoom = null) {
       socket.off(EVENTS.ROOM_STATE, handleRoom);
       socket.off(EVENTS.MOVE_MADE, handleRoom);
       socket.off(EVENTS.GAME_OVER, handleRoom);
+      socket.off(EVENTS.OPPONENT_DISCONNECTED, handleOpponentDisconnected);
+      socket.off(EVENTS.OPPONENT_RECONNECTED, handleOpponentReconnected);
       socket.off(EVENTS.EXCEPTION, handleException);
     };
   }, []);
@@ -69,5 +82,14 @@ export function useGame(initialRoom = null) {
     socket.emit(EVENTS.LEAVE_ROOM, { playerId });
   }
 
-  return { room, error, createRoom, joinRoom, enterRoom, play, leaveRoom };
+  return {
+    room,
+    error,
+    isOpponentDisconnected,
+    createRoom,
+    joinRoom,
+    enterRoom,
+    play,
+    leaveRoom,
+  };
 }

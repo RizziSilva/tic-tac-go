@@ -13,7 +13,9 @@ export function GamePage() {
   const hasUpdatedGameResult = useRef(false);
   const location = useLocation();
   const initialRoom = location.state?.room;
-  const { room, enterRoom, play, leaveRoom } = useGame(initialRoom ?? null);
+  const { room, enterRoom, play, leaveRoom, isOpponentDisconnected } = useGame(
+    initialRoom ?? null,
+  );
   const { code } = useParams();
   const { user } = useAuth();
   const { updateGameResult } = userService();
@@ -68,6 +70,10 @@ export function GamePage() {
     navigate(ROUTES.HOME.pathname);
   }
 
+  function handleGiveUpCancel() {
+    setIsGiveUpModalOpen(false);
+  }
+
   function renderPlayersInformation() {
     return room?.players.map((player) => (
       <div key={player.playerId} className={style["container-player"]}>
@@ -92,6 +98,17 @@ export function GamePage() {
     );
   }
 
+  function renderOpponentReconnecting() {
+    return (
+      <>
+        Oponente reconectando
+        <div className={style["dot"]} />
+        <div className={style["dot"]} />
+        <div className={style["dot"]} />
+      </>
+    );
+  }
+
   function renderFinishedMessage() {
     const currentPlayer = room?.players.find(
       (player) => player.playerId === user.uid,
@@ -108,6 +125,7 @@ export function GamePage() {
     const isPlaying = room?.status === ROOM_STATUS.PLAYING;
     const isFinished = room?.status === ROOM_STATUS.FINISHED;
 
+    if (isOpponentDisconnected) return renderOpponentReconnecting();
     if (isWaiting) return renderWaitingForOponent();
     if (isPlaying) return "Oponente encontrado!";
     if (isFinished) return renderFinishedMessage();
@@ -130,7 +148,9 @@ export function GamePage() {
         isOpen={isGiveUpModalOpen}
         message="Tem certeza que deseja desistir da partida?"
         confirmLabel="Desistir"
+        cancelLabel="Cancelar"
         onConfirm={handleGiveUpConfirm}
+        onCancel={handleGiveUpCancel}
       />
       <div className={style["container-page"]}>
         <button className={style["button-back"]} onClick={handleBackClick}>
