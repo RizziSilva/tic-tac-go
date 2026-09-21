@@ -43,7 +43,6 @@ export function HomePage() {
   }, [room]);
 
   useEffect(() => {
-    console.log("error", error);
     const isRoomNotFound = error?.code === ERRORS.ROOM_NOT_FOUND;
 
     if (isRoomNotFound) toast.error("Sala não encontrada.");

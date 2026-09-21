@@ -10,5 +10,7 @@ export const EVENTS = {
   MOVE_MADE: "move_made",
   GAME_OVER: "game_over",
   LEAVE_ROOM: "leave_room",
+  OPPONENT_DISCONNECTED: "opponent_disconnected",
+  OPPONENT_RECONNECTED: "opponent_reconnected",
   EXCEPTION: "exception",
 };
