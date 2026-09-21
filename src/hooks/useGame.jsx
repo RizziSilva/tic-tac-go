@@ -46,6 +46,9 @@ export function useGame(initialRoom = null) {
     socket.on(EVENTS.GAME_OVER, handleRoom);
     socket.on(EVENTS.OPPONENT_DISCONNECTED, handleOpponentDisconnected);
     socket.on(EVENTS.OPPONENT_RECONNECTED, handleOpponentReconnected);
+    socket.on(EVENTS.REMATCH_REQUESTED, handleRoom);
+    socket.on(EVENTS.REMATCH_STARTED, handleRoom);
+    socket.on(EVENTS.REMATCH_DECLINED, handleRoom);
     socket.on(EVENTS.EXCEPTION, handleException);
 
     return () => {
@@ -57,6 +60,9 @@ export function useGame(initialRoom = null) {
       socket.off(EVENTS.GAME_OVER, handleRoom);
       socket.off(EVENTS.OPPONENT_DISCONNECTED, handleOpponentDisconnected);
       socket.off(EVENTS.OPPONENT_RECONNECTED, handleOpponentReconnected);
+      socket.off(EVENTS.REMATCH_REQUESTED, handleRoom);
+      socket.off(EVENTS.REMATCH_STARTED, handleRoom);
+      socket.off(EVENTS.REMATCH_DECLINED, handleRoom);
       socket.off(EVENTS.EXCEPTION, handleException);
     };
   }, []);
@@ -82,6 +88,14 @@ export function useGame(initialRoom = null) {
     socket.emit(EVENTS.LEAVE_ROOM, { playerId });
   }
 
+  function requestRematch(playerId) {
+    socket.emit(EVENTS.REQUEST_REMATCH, { playerId });
+  }
+
+  function declineRematch(playerId) {
+    socket.emit(EVENTS.DECLINE_REMATCH, { playerId });
+  }
+
   return {
     room,
     error,
@@ -91,5 +105,7 @@ export function useGame(initialRoom = null) {
     enterRoom,
     play,
     leaveRoom,
+    requestRematch,
+    declineRematch,
   };
 }

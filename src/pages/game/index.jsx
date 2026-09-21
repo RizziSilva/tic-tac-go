@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import { Board, Modal } from "@components";
 import { ROOM_STATUS, ROUTES } from "@constants";
 import { useAuth } from "@context";
@@ -13,13 +14,22 @@ export function GamePage() {
   const hasUpdatedGameResult = useRef(false);
   const location = useLocation();
   const initialRoom = location.state?.room;
-  const { room, enterRoom, play, leaveRoom, isOpponentDisconnected } = useGame(
-    initialRoom ?? null,
-  );
+  const {
+    room,
+    enterRoom,
+    play,
+    leaveRoom,
+    requestRematch,
+    isOpponentDisconnected,
+  } = useGame(initialRoom ?? null);
   const { code } = useParams();
   const { user } = useAuth();
   const { updateGameResult } = userService();
   const navigate = useNavigate();
+  const opponent = room?.players.find((player) => player.playerId !== user.uid);
+  const hasOpponentRequestedRematch = room?.rematchRequests?.includes(
+    opponent?.playerId,
+  );
 
   useEffect(() => {
     const hasInitialRoom = initialRoom;
@@ -44,8 +54,28 @@ export function GamePage() {
       }
     }
 
+    function handleRematchStarted() {
+      const isPlaying = room?.status === ROOM_STATUS.PLAYING;
+
+      if (isPlaying) hasUpdatedGameResult.current = false;
+    }
+
     handleUserGamesUpdate();
+    handleRematchStarted();
   }, [room]);
+
+  useEffect(() => {
+    function handleRematchToaster() {
+      if (hasOpponentRequestedRematch)
+        toast(`${opponent?.name} quer jogar novamente!`, {
+          style: {
+            border: "1px solid gray",
+          },
+        });
+    }
+
+    handleRematchToaster();
+  }, [hasOpponentRequestedRematch]);
 
   function handleCellClick(position) {
     play(position);
@@ -72,6 +102,10 @@ export function GamePage() {
 
   function handleGiveUpCancel() {
     setIsGiveUpModalOpen(false);
+  }
+
+  function handleRematchClick() {
+    requestRematch(user.uid);
   }
 
   function renderPlayersInformation() {
@@ -133,11 +167,33 @@ export function GamePage() {
     return renderWaitingForOponent();
   }
 
+  function renderRematchButton() {
+    const isFinished = room?.status === ROOM_STATUS.FINISHED;
+
+    if (!isFinished) return null;
+
+    const hasRequestedRematch = room?.rematchRequests?.includes(user.uid);
+
+    if (hasRequestedRematch)
+      return (
+        <span className={style["rematch-waiting"]}>
+          Aguardando oponente para revanche
+        </span>
+      );
+
+    return (
+      <button className={style["button-rematch"]} onClick={handleRematchClick}>
+        Jogar novamente
+      </button>
+    );
+  }
+
   function renderGameInformation() {
     return (
       <div className={style["container-information"]}>
         <span className={style["title"]}>{renderTitle()}</span>
         {renderPlayersInformation()}
+        {renderRematchButton()}
       </div>
     );
   }

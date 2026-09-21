@@ -12,5 +12,10 @@ export const EVENTS = {
   LEAVE_ROOM: "leave_room",
   OPPONENT_DISCONNECTED: "opponent_disconnected",
   OPPONENT_RECONNECTED: "opponent_reconnected",
+  REQUEST_REMATCH: "request_rematch",
+  DECLINE_REMATCH: "decline_rematch",
+  REMATCH_REQUESTED: "rematch_requested",
+  REMATCH_STARTED: "rematch_started",
+  REMATCH_DECLINED: "rematch_declined",
   EXCEPTION: "exception",
 };

@@ -79,6 +79,20 @@
         text-overflow: ellipsis;
       }
     }
+
+    > .button-rematch {
+      background: none;
+      border: 1px solid $black;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      padding: 8px 16px;
+    }
+
+    > .rematch-waiting {
+      margin-top: 10px;
+      text-align: center;
+    }
   }
 
   > .container-board {
