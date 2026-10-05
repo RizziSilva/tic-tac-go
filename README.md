@@ -1,16 +1,64 @@
-# React + Vite
+# Tic Tac Go
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Tic Tac Go is an online, real-time multiplayer tic-tac-toe game. Players sign in with their Google account, then either create a room and share its code with a friend or join an existing room using a code. Moves are synced instantly between both players over WebSockets, and the game handles the full match lifecycle: win/draw detection, opponent disconnection and reconnection, giving up or leaving a room, and requesting a rematch once a game is over.
 
-Currently, two official plugins are available:
+**Play it live:** https://tic-tac-go-teal.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+- React 19 + Vite
+- React Router
+- Firebase Authentication (Google sign-in)
+- Socket.IO client
+- SCSS modules
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting Started
 
-## Expanding the Oxlint configuration
+Install dependencies:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm install
+```
+
+Create a `.env` file in the project root with your Firebase config and the game server URL:
+
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_DATABASE_URL=
+VITE_FIREBASE_MEASUREMENT_ID=
+VITE_SOCKET_CONNECTION=
+```
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+## Scripts
+
+| Command           | Description                  |
+| ----------------- | ---------------------------- |
+| `npm run dev`     | Start the development server |
+| `npm run build`   | Build for production         |
+| `npm run preview` | Preview the production build |
+
+## Project Structure
+
+```
+src/
+├── components/   Reusable UI (board, modal, loader, protected layout)
+├── constants/    Routes, socket events, env variables
+├── context/      Auth and loading providers
+├── hooks/        useGame, useSocketConnection, useAsync
+├── pages/        Login, Home, Game
+├── services/     Firebase, auth and user helpers
+└── socket.js     Socket.IO client setup
+```
+
+> Note: this is the front end only. It needs the game server, [tic-tac-go-server](https://github.com/RizziSilva/tic-tac-go-server), running and configured through `VITE_SOCKET_CONNECTION`.
